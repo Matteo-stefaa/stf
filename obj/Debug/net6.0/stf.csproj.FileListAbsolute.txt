@@ -1,0 +1,15 @@
+C:\Users\matte\DotNetJob\stf\bin\Debug\net6.0\stf.exe
+C:\Users\matte\DotNetJob\stf\bin\Debug\net6.0\stf.deps.json
+C:\Users\matte\DotNetJob\stf\bin\Debug\net6.0\stf.runtimeconfig.json
+C:\Users\matte\DotNetJob\stf\bin\Debug\net6.0\stf.dll
+C:\Users\matte\DotNetJob\stf\bin\Debug\net6.0\ref\stf.dll
+C:\Users\matte\DotNetJob\stf\bin\Debug\net6.0\stf.pdb
+C:\Users\matte\DotNetJob\stf\obj\Debug\net6.0\stf.csproj.AssemblyReference.cache
+C:\Users\matte\DotNetJob\stf\obj\Debug\net6.0\stf.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\matte\DotNetJob\stf\obj\Debug\net6.0\stf.AssemblyInfoInputs.cache
+C:\Users\matte\DotNetJob\stf\obj\Debug\net6.0\stf.AssemblyInfo.cs
+C:\Users\matte\DotNetJob\stf\obj\Debug\net6.0\stf.csproj.CoreCompileInputs.cache
+C:\Users\matte\DotNetJob\stf\obj\Debug\net6.0\stf.dll
+C:\Users\matte\DotNetJob\stf\obj\Debug\net6.0\ref\stf.dll
+C:\Users\matte\DotNetJob\stf\obj\Debug\net6.0\stf.pdb
+C:\Users\matte\DotNetJob\stf\obj\Debug\net6.0\stf.genruntimeconfig.cache
