@@ -9,8 +9,7 @@ namespace stf
 {
     internal class Program
     {
-        private static List<Tuple<commands, Action<IEnumerable<string>>, string>> _commands;
-        private static Dictionary<shortCommands, commands> _dctShortCommands;
+        private static List<Command> _commands;
 
         public static void Main(string[] args)
         {
@@ -28,23 +27,14 @@ namespace stf
                 return;
             }
 
-            if (Enum.TryParse(args[0], out commands c))
+            var cmd = commandByName(args[0]);
+            if (cmd != null)
             {
-                var cmd = _commands.Find(cm => cm.Item1 == c);
                 if (cmd != null)
                 {
                     var cleanedArgs = args.Skip(1);
-                    cmd.Item2(cleanedArgs);
+                    cmd.Action(cleanedArgs);
 
-                    return;
-                }
-            }
-            else if (args[0][0] == '-' && Enum.TryParse(args[0].Substring(1), out shortCommands sc))
-            {
-                if (_dctShortCommands.ContainsKey(sc))
-                {
-                    args[0] = _dctShortCommands[sc].ToString();
-                    Main(args);
                     return;
                 }
             }
@@ -62,9 +52,24 @@ namespace stf
             {
                 string logMenu = _commands.ConvertAll(e =>
                 {
-                    string sh = _dctShortCommands.ToList().FindAll(d => d.Value == e.Item1)
-                        .ConvertAll(s => $"-{s.Key.ToString()}").Aggregate((a, b) => $"{a}|{b}");
-                    return $"   {e.Item1}[{sh}]\t\t{e.Item3}";
+
+                    string sh = "";
+                    if (e.Shorts != null && e.Shorts.Count != 0)
+                    {
+                        sh = e.Shorts.ToList().ConvertAll(s => $"-{s}")
+                           .Aggregate((a, b) => $"{a}|{b}");
+                    }
+
+                    if (sh != "")
+                    {
+                        return $"   {e.Name}\t\t{e.Description}{Environment.NewLine}" +
+                                $"  [{sh}]";
+                    }
+                    else
+                    {
+                        return $"   {e.Name}\t\t{e.Description}";
+                    }
+
                 })
                     .Aggregate((a, b) => $"{a}{Environment.NewLine}{b}");
                 Console.WriteLine(logMenu);
@@ -73,16 +78,35 @@ namespace stf
         //
         private static void getCommandsList()
         {
-            _commands = new List<Tuple<commands, Action<IEnumerable<string>>, string>>();
-            addCommand(commands.version, version, "print the version");
-
-            _dctShortCommands = new Dictionary<shortCommands, commands>();
-            _dctShortCommands.Add(shortCommands.v, commands.version);
+            _commands = new List<Command>();
+            addCommand("version", version, "print the version", new[] { "s" });
+            addCommand("personalize", personalize, "enter in personalize mode", new[] { "prs" });
         }
-        private static void addCommand(commands cmd, Action<IEnumerable<string>> action, string description)
+        private static Command commandByName(string name)
+        {
+            if (_commands == null) { return null; }
+
+            if (name[0] == '-')
+            {
+                return _commands.Find(c => c.Shorts.Find(s => s == name.Substring(1)) != null);
+            }
+            else
+            {
+                return _commands.Find(c => c.Name == name);
+            }
+        }
+        private static void addCommand(string cmd, Action<IEnumerable<string>> action, string description, IEnumerable<string> shortCommands = null)
         {
             if (_commands == null) { return; }
-            _commands.Add(new Tuple<commands, Action<IEnumerable<string>>, string>(cmd, action, description));
+            var command = new Command(cmd, action, description);
+            if (shortCommands != null)
+            {
+                foreach (string sh in shortCommands) 
+                {
+                    command.AddShortCommand(sh);
+                }
+            }
+            _commands.Add(command);
         }
 
         #region commands
@@ -91,15 +115,10 @@ namespace stf
             string logVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Console.WriteLine(logVersion);
         }
-        #endregion
+        private static void personalize(IEnumerable<string> args)
+        {
 
-        private enum commands
-        {
-            version
         }
-        private enum shortCommands
-        {
-            v
-        }
+        #endregion
     }
 }
