@@ -1,1 +1,1 @@
-# Shorcut Timing Finalizer
+# Shorcut Timing Finalizer (x CLI)
