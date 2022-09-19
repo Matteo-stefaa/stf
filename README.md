@@ -1,1 +1,1 @@
-# Shorcut Timing Finalizer (CLI)
+# Shortcut Timing Finalizer (CLI)
